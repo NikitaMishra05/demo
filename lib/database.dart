@@ -27,15 +27,15 @@ class DatabaseService {
     }
   }
 
-  Future<String?> getUser(String email) async {
+  Future <Map<String,dynamic>> getUser(String email) async {
     try {
       CollectionReference users =
       FirebaseFirestore.instance.collection('users');
       final snapshot = await users.doc(email).get();
       final data = snapshot.data() as Map<String, dynamic>;
-      return data[''];
+      return data;
     } catch (e) {
-      return 'Error fetching user';
+      throw e;
     }
   }
 }

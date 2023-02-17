@@ -1,12 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'database.dart';
+
 class Profile extends StatefulWidget{
   @override
   State<Profile> createState() => _ProfileState();
+  const Profile({Key? key, required this.email}) : super(key: key);
+  final String email;
 }
 
 class _ProfileState extends State<Profile> {
+   //String name = '';
+
+    Map<String, dynamic> userData = <String, dynamic>{};
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +54,12 @@ class _ProfileState extends State<Profile> {
                 ),
                 Column(
                   children: [
-                    Text("Nikita Mishra",
+                    Text("Name: "+userData['full_name'].toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                     ),
-                    Text("nikit.mishra@gmail.com",
+                    Text("Email: "+userData['email'].toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Colors.grey
@@ -78,7 +91,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.orange,
                         size: 40,
                       ),
-                      Text("  Date Of Birth")
+                      Text(userData['dob'].toString())
 
                     ],
                   ),
@@ -88,7 +101,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.green,
                         size: 55,
                       ),
-                      Text("Gender")
+                      Text(userData['gender'].toString())
 
                     ],
                   ),
@@ -98,7 +111,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.blueAccent,
                         size: 40,
                       ),
-                      Text("  Phone No.")
+                      Text(userData['phone'].toString())
 
                     ],
                   ),
@@ -128,6 +141,12 @@ class _ProfileState extends State<Profile> {
 
     );
 
+
+  }
+
+  void getData() async {
+    userData = (await DatabaseService().getUser(widget.email))!;
+    setState(() {});
 
   }
 }

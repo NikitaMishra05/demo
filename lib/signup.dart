@@ -1,6 +1,7 @@
 import 'package:demo/database.dart';
 import 'package:demo/main.dart';
 import 'package:demo/menu.dart';
+import 'package:demo/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -305,7 +306,7 @@ class _SignupState extends State<Signup> {
               ),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
-            Navigator.push(context, MaterialPageRoute(builder:(context)=> Menu()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Profile(email: gmail_controller.text)));
 
           }
 

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.blue,
 
     ),
-    home: Profile(),
+    home: HomeClass(),
   );
 
   }
@@ -142,7 +142,7 @@ bool isvisible=false;
                   action: SnackBarAction(
                     label: 'Undo',
                     onPressed: () {
-                      // Some code to undo the change.
+                      // Some code to undo the change.Menu
                     },
                   ),
                 );
@@ -311,7 +311,7 @@ bool isvisible=false;
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> Menu()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Profile(email: username_controller.text)));
     }
     on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
