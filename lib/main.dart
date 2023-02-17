@@ -1,5 +1,6 @@
 import 'package:demo/firebase_options.dart';
 import 'package:demo/menu.dart';
+import 'package:demo/profile.dart';
 import 'package:demo/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.blue,
 
     ),
-    home: HomeClass(),
+    home: Profile(),
   );
 
   }

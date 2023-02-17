@@ -1,4 +1,6 @@
+import 'package:demo/database.dart';
 import 'package:demo/main.dart';
+import 'package:demo/menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -18,7 +20,7 @@ class _SignupState extends State<Signup> {
   final name_controller=TextEditingController();
   final dob_controller= TextEditingController();
   final FirebaseAuth _auth=FirebaseAuth.instance;
-  String? gender="none";
+  String gender="none";
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +261,7 @@ class _SignupState extends State<Signup> {
                              onTap: (){
                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeClass()));
                              },
-                               child: Text("Sign In",
+                               child: Text("Sign Up",
                                  style: TextStyle(
                                      color: Colors.blueAccent),))
                          ],
@@ -283,15 +285,32 @@ class _SignupState extends State<Signup> {
           password: password_conroller.value.text.toString().trim());
         user=credential.user;
         user=_auth.currentUser;
-        final snackbar= SnackBar(content: const Text("Account created now we will go on next page"),
-                                  action: SnackBarAction(
-                                    label: 'Undo',
-                                    onPressed: (){},
 
-                                  ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        Navigator.push(context, MaterialPageRoute(builder:(context)=> HomeClass()));
+        if(user!=null){
+          final result=await DatabaseService().addUser(
+              name: name_controller.text,
+              phone: phone_controller.text,
+              dob: dob_controller.text,
+              email: gmail_controller.text,
+              gender: gender,
+              password: password_conroller.text
+          );
+
+          if(result!=null){
+            final snackbar= SnackBar(content: const Text("Account created and data added successfully"),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: (){},
+
+              ),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            Navigator.push(context, MaterialPageRoute(builder:(context)=> Menu()));
+
+          }
+
+        }
+
 
     }
 
@@ -322,7 +341,7 @@ class _SignupState extends State<Signup> {
 
     }
     catch(e){
-      final snackbar= SnackBar(content: const Text('The account already exist for that email'),
+      final snackbar= SnackBar(content: const Text('Something went wrong'),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: (){},
